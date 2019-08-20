@@ -1,55 +1,68 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-buildscript {
-  repositories {
-    maven {
-      url "https://maven.google.com"
-      content {
-        includeGroupByRegex "com\\.android.*"
-        includeGroupByRegex "androidx.*"
-      }
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'org.jetbrains.dokka-android'
+
+dokka {
+    reportUndocumented = false
+    skipDeprecated = true
+    jdkVersion = 7
+    includes = ['Module.md']
+    packageOptions {
+        prefix = "io.github.inflationx.viewpump.internal"
+        suppress = true
     }
-    maven {
-      url "https://repo.maven.apache.org/maven2/"
-      content {
-        includeGroupByRegex "org\\.jetbrains.*"
-      }
+    externalDocumentationLink {
+        url = new URL("https://developer.android.com/reference/")
+        packageListUrl =
+            new URL("https://developer.android.com/reference/androidx/package-list")
     }
-    mavenCentral()
-    jcenter()
-    maven {
-      // For maven publish plugin until 0.9.0 is released
-      url "https://oss.sonatype.org/content/repositories/snapshots/"
-    }
-  }
-  dependencies {
-    classpath 'com.android.tools.build:gradle:3.3.2'
-    classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.21'
-    classpath 'org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.18'
-    classpath 'com.vanniktech:gradle-maven-publish-plugin:0.9.0-SNAPSHOT'
-  }
 }
 
-allprojects {
-  repositories {
-    maven {
-      url "https://maven.google.com"
-      content {
-        includeGroupByRegex "com\\.android.*"
-        includeGroupByRegex "androidx.*"
-      }
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
-    maven {
-      url "https://repo.maven.apache.org/maven2/"
-      content {
-        includeGroupByRegex "org\\.jetbrains.*"
-        includeGroupByRegex "com\\.jakewharton.*"
-        includeGroupByRegex "com\\.squareup.*"
-        includeGroupByRegex "junit.*"
-        includeGroupByRegex "org\\.assertj.*"
-        includeGroupByRegex "org\\.mockito.*"
-      }
+    dependencies {
+        classpath "gradle.plugin.com.vanniktech:gradle-maven-publish-plugin:0.1.0"
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.18"
     }
-    mavenCentral()
-    jcenter()
-  }
 }
+
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 28
+    }
+    lintOptions {
+        // we don't always want to use the latest version of the support library
+        disable 'GradleDependency'
+        textOutput 'stdout'
+        textReport System.getenv('CI') == 'true'
+    }
+//    libraryVariants.all {
+//        it.generateBuildConfigProvider.configure {
+//            it.enabled = false
+//        }
+//    }
+//    variantFilter { variant ->
+//        if (variant.buildType.name == 'debug') {
+//            variant.setIgnore(true)
+//        }
+//    }
+}
+
+dependencies {
+//    compileOnly 'androidx.appcompat:appcompat:1.0.2'
+//    api 'org.jetbrains.kotlin:kotlin-stdlib:1.3.21'
+
+    compile 'com.android.support:appcompat-v7:28.0.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+
+//apply plugin: 'com.vanniktech.maven.publish'
