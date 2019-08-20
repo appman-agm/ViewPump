@@ -3,11 +3,11 @@ package io.github.inflationx.viewpump.internal
 
 import android.content.Context
 import android.os.Build
+import android.support.v4.os.BuildCompat
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.BuildCompat
 import io.github.inflationx.viewpump.FallbackViewCreator
 import io.github.inflationx.viewpump.InflateRequest
 import io.github.inflationx.viewpump.R.id

@@ -18,6 +18,19 @@ dokka {
     }
 }
 
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.vanniktech:gradle-maven-publish-plugin:0.1.0"
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.18"
+    }
+}
+
+
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
@@ -32,29 +45,31 @@ android {
         textOutput 'stdout'
         textReport System.getenv('CI') == 'true'
     }
-    libraryVariants.all {
-        // TODO replace with https://issuetracker.google.com/issues/72050365 once released.
-        it.generateBuildConfigProvider.configure {
-            it.enabled = false
-        }
-    }
-    variantFilter { variant ->
-        if (variant.buildType.name == 'debug') {
-            variant.setIgnore(true)
-        }
-    }
+//    libraryVariants.all {
+//        it.generateBuildConfigProvider.configure {
+//            it.enabled = false
+//        }
+//    }
+//    variantFilter { variant ->
+//        if (variant.buildType.name == 'debug') {
+//            variant.setIgnore(true)
+//        }
+//    }
 }
 
 dependencies {
-    compileOnly 'androidx.appcompat:appcompat:1.0.2'
-    api 'org.jetbrains.kotlin:kotlin-stdlib:1.3.21'
+//    compileOnly 'androidx.appcompat:appcompat:1.0.2'
+//    api 'org.jetbrains.kotlin:kotlin-stdlib:1.3.21'
 
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.assertj:assertj-core:3.11.0'
-    testImplementation 'org.mockito:mockito-core:2.23.0'
+    compile 'com.android.support:appcompat-v7:28.0.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    testImplementation 'androidx.annotation:annotation:1.0.2'
-    testImplementation 'androidx.test:runner:1.1.1'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:3.11.0'
+    testCompile 'org.mockito:mockito-core:2.23.0'
+
+    testCompile 'androidx.annotation:annotation:1.0.2'
+    testCompile 'androidx.test:runner:1.1.1'
 }
 
-apply plugin: 'com.vanniktech.maven.publish'
+//apply plugin: 'com.vanniktech.maven.publish'

@@ -1,8 +1,8 @@
 package io.github.inflationx.viewpump
 
 import android.content.Context
+import android.support.annotation.MainThread
 import android.view.View
-import androidx.annotation.MainThread
 import io.github.inflationx.viewpump.Interceptor.Chain
 import io.github.inflationx.viewpump.ViewPump.Builder
 import io.github.inflationx.viewpump.internal.`-FallbackViewCreationInterceptor`
